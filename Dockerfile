@@ -144,7 +144,7 @@ RUN mkdir -p /var/www/html/wp-content/plugins && \
 
 # Install AWS SDK separately to avoid plugin dev dependency conflicts
 RUN cd /var/www/html/wp-content/plugins/s3-uploads && \
-    composer require aws/aws-sdk-php --no-dev --optimize-autoloader --ignore-platform-reqs
+    composer require aws/aws-sdk-php --optimize-autoloader --ignore-platform-reqs
 
 COPY Caddyfile /etc/caddy/Caddyfile
 
