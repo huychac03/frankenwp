@@ -14,6 +14,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Ensure AWS SDK autoloader is loaded for S3 Uploads
+if (file_exists(ABSPATH . 'wp-content/plugins/s3-uploads/vendor/autoload.php')) {
+    require_once ABSPATH . 'wp-content/plugins/s3-uploads/vendor/autoload.php';
+}
+
 // Configure R2 constants early - this runs before WordPress config
 if (!defined('S3_UPLOADS_ENDPOINT') && getenv('CLOUDFLARE_R2_ENDPOINT')) {
     define('S3_UPLOADS_ENDPOINT', getenv('CLOUDFLARE_R2_ENDPOINT'));
