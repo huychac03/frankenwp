@@ -32,31 +32,32 @@ add_filter("s3_uploads_s3_client_params", "frankenwp_s3_uploads_s3_client_params
 /**
  * Display admin notice about R2 configuration status
  */
-function frankenwp_r2_admin_notice() {
-    if (!current_user_can('manage_options')) {
-        return;
-    }
-    
-    $screen = get_current_screen();
-    if ($screen && $screen->base === 'upload') {
-        $r2_configured = defined('S3_UPLOADS_ENDPOINT') && 
-                        defined('S3_UPLOADS_BUCKET') && 
-                        defined('S3_UPLOADS_KEY') && 
-                        defined('S3_UPLOADS_SECRET');
-        
-        if ($r2_configured) {
-            echo '<div class="notice notice-success"><p>';
-            echo '<strong>✅ Cloudflare R2:</strong> Configured and active. ';
-            echo 'Media uploads will be stored in: <code>' . esc_html(S3_UPLOADS_BUCKET) . '</code>';
-            echo '</p></div>';
-        } else {
-            echo '<div class="notice notice-warning"><p>';
-            echo '<strong>⚠️ Cloudflare R2:</strong> Not fully configured. ';
-            echo 'Check your wp-config.php R2 settings.';
-            echo '</p></div>';
-        }
-    }
-}
+ function frankenwp_r2_admin_notice() {
+     if (!current_user_can('manage_options')) {
+         return;
+     }
+     
+     $screen = get_current_screen();
+     if ($screen && $screen->base === 'upload') {
+         $r2_configured = defined('S3_UPLOADS_ENDPOINT') && 
+                         defined('S3_UPLOADS_BUCKET') && 
+                         defined('S3_UPLOADS_KEY') && 
+                         defined('S3_UPLOADS_SECRET');
+         
+         if ($r2_configured) {
+             $bucket_name = defined('S3_UPLOADS_BUCKET') ? S3_UPLOADS_BUCKET : 'Unknown';
+             echo '<div class="notice notice-success"><p>';
+             echo '<strong>✅ Cloudflare R2:</strong> Configured and active. ';
+             echo 'Media uploads will be stored in: <code>' . esc_html($bucket_name) . '</code>';
+             echo '</p></div>';
+         } else {
+             echo '<div class="notice notice-warning"><p>';
+             echo '<strong>⚠️ Cloudflare R2:</strong> Not fully configured. ';
+             echo 'Check your wp-config.php R2 settings.';
+             echo '</p></div>';
+         }
+     }
+ }
 add_action('admin_notices', 'frankenwp_r2_admin_notice');
 
 /**
