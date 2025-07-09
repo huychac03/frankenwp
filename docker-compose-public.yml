@@ -43,22 +43,6 @@ services:
               define('WP_HOME', 'http://94.100.26.6:8100');
           }
           
-          // Cloudflare R2 Configuration - use getenv() for better compatibility
-          $r2_endpoint = getenv('CLOUDFLARE_R2_ENDPOINT');
-          $r2_bucket = getenv('CLOUDFLARE_R2_BUCKET');
-          $r2_bucket_url = getenv('CLOUDFLARE_R2_BUCKET_URL');
-          $r2_access_key = getenv('CLOUDFLARE_R2_ACCESS_KEY');
-          $r2_secret_key = getenv('CLOUDFLARE_R2_SECRET_KEY');
-          
-          if (!empty($r2_endpoint) && !empty($r2_bucket)) {
-              define('S3_UPLOADS_ENDPOINT', $r2_endpoint);
-              define('S3_UPLOADS_BUCKET', $r2_bucket);
-              define('S3_UPLOADS_BUCKET_URL', $r2_bucket_url);
-              define('S3_UPLOADS_REGION', 'auto');
-              define('S3_UPLOADS_KEY', $r2_access_key);
-              define('S3_UPLOADS_SECRET', $r2_secret_key);
-          }
-          
     volumes:
       - wp_uploads:/var/www/html/wp-content/uploads
     depends_on:

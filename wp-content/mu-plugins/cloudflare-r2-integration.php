@@ -14,6 +14,31 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Configure R2 constants early - this runs before WordPress config
+if (!defined('S3_UPLOADS_ENDPOINT') && getenv('CLOUDFLARE_R2_ENDPOINT')) {
+    define('S3_UPLOADS_ENDPOINT', getenv('CLOUDFLARE_R2_ENDPOINT'));
+}
+
+if (!defined('S3_UPLOADS_BUCKET') && getenv('CLOUDFLARE_R2_BUCKET')) {
+    define('S3_UPLOADS_BUCKET', getenv('CLOUDFLARE_R2_BUCKET'));
+}
+
+if (!defined('S3_UPLOADS_BUCKET_URL') && getenv('CLOUDFLARE_R2_BUCKET_URL')) {
+    define('S3_UPLOADS_BUCKET_URL', getenv('CLOUDFLARE_R2_BUCKET_URL'));
+}
+
+if (!defined('S3_UPLOADS_REGION')) {
+    define('S3_UPLOADS_REGION', 'auto');
+}
+
+if (!defined('S3_UPLOADS_KEY') && getenv('CLOUDFLARE_R2_ACCESS_KEY')) {
+    define('S3_UPLOADS_KEY', getenv('CLOUDFLARE_R2_ACCESS_KEY'));
+}
+
+if (!defined('S3_UPLOADS_SECRET') && getenv('CLOUDFLARE_R2_SECRET_KEY')) {
+    define('S3_UPLOADS_SECRET', getenv('CLOUDFLARE_R2_SECRET_KEY'));
+}
+
 /**
  * Override S3 client parameters for Cloudflare R2 compatibility
  * 
