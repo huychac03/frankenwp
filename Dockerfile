@@ -140,9 +140,11 @@ RUN mkdir -p /var/www/html/wp-content/plugins && \
     cd /tmp && \
     unzip s3-uploads.zip && \
     mv S3-Uploads-master /var/www/html/wp-content/plugins/s3-uploads && \
-    rm s3-uploads.zip && \
-    cd /var/www/html/wp-content/plugins/s3-uploads && \
-    composer install --no-dev --optimize-autoloader
+    rm s3-uploads.zip
+
+# Install AWS SDK separately to avoid plugin dev dependency conflicts
+RUN cd /var/www/html/wp-content/plugins/s3-uploads && \
+    composer require aws/aws-sdk-php --no-dev --optimize-autoloader --ignore-platform-reqs
 
 COPY Caddyfile /etc/caddy/Caddyfile
 
