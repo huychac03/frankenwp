@@ -34,19 +34,20 @@ services:
         auto_https disable_redirects
         debug
       WORDPRESS_CONFIG_EXTRA: |
-          // Public domain configuration
-          define('WP_SITEURL', 'https://frankenwp.passiontech.dev');
-          define('WP_HOME', 'https://frankenwp.passiontech.dev');
-          
-          // Alternative access via IP
-          if ($_SERVER['HTTP_HOST'] == '94.100.26.6:8100') {
+          // Dynamic configuration based on host
+          if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == '94.100.26.6:8100') {
+              // IP access - use HTTP
               define('WP_SITEURL', 'http://94.100.26.6:8100');
               define('WP_HOME', 'http://94.100.26.6:8100');
-          }
-          
-          // Force HTTPS for domain access
-          if ($_SERVER['HTTP_HOST'] == 'frankenwp.passiontech.dev') {
-              $_SERVER['HTTPS'] = 'on';
+          } elseif (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'frankenwp.passiontech.dev') {
+              // Domain access - use HTTPS
+              define('WP_SITEURL', 'https://frankenwp.passiontech.dev');
+              define('WP_HOME', 'https://frankenwp.passiontech.dev');
+              define('FORCE_SSL_ADMIN', true);
+          } else {
+              // Default configuration
+              define('WP_SITEURL', 'http://94.100.26.6:8100');
+              define('WP_HOME', 'http://94.100.26.6:8100');
           }
           
           // Cloudflare R2 Configuration
