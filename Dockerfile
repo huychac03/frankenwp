@@ -131,13 +131,18 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     chmod +x wp-cli.phar && \
     mv wp-cli.phar /usr/local/bin/wp
 
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 # Install S3 Uploads plugin for Cloudflare R2 integration
 RUN mkdir -p /var/www/html/wp-content/plugins && \
     curl -L https://github.com/humanmade/S3-Uploads/archive/refs/heads/master.zip -o /tmp/s3-uploads.zip && \
     cd /tmp && \
     unzip s3-uploads.zip && \
     mv S3-Uploads-master /var/www/html/wp-content/plugins/s3-uploads && \
-    rm s3-uploads.zip
+    rm s3-uploads.zip && \
+    cd /var/www/html/wp-content/plugins/s3-uploads && \
+    composer install --no-dev --optimize-autoloader
 
 COPY Caddyfile /etc/caddy/Caddyfile
 
