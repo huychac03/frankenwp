@@ -35,11 +35,13 @@ services:
         debug
       WORDPRESS_CONFIG_EXTRA: |
           // Dynamic configuration based on host
-          if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == '94.100.26.6:8100') {
+          $http_host = !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
+          
+          if ($http_host === '94.100.26.6:8100') {
               // IP access - use HTTP
               define('WP_SITEURL', 'http://94.100.26.6:8100');
               define('WP_HOME', 'http://94.100.26.6:8100');
-          } elseif (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'frankenwp.passiontech.dev') {
+          } elseif ($http_host === 'frankenwp.passiontech.dev') {
               // Domain access - use HTTPS
               define('WP_SITEURL', 'https://frankenwp.passiontech.dev');
               define('WP_HOME', 'https://frankenwp.passiontech.dev');
