@@ -34,20 +34,11 @@ services:
         auto_https disable_redirects
         debug
       WORDPRESS_CONFIG_EXTRA: |
-          // Dynamic configuration based on host
-          $http_host = !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
-          
-          if ($http_host === '94.100.26.6:8100') {
-              // IP access - use HTTP
-              define('WP_SITEURL', 'http://94.100.26.6:8100');
-              define('WP_HOME', 'http://94.100.26.6:8100');
-          } elseif ($http_host === 'frankenwp.passiontech.dev') {
-              // Domain access - use HTTPS
+          if (!empty($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'frankenwp.passiontech.dev') {
               define('WP_SITEURL', 'https://frankenwp.passiontech.dev');
               define('WP_HOME', 'https://frankenwp.passiontech.dev');
               define('FORCE_SSL_ADMIN', true);
           } else {
-              // Default configuration
               define('WP_SITEURL', 'http://94.100.26.6:8100');
               define('WP_HOME', 'http://94.100.26.6:8100');
           }
