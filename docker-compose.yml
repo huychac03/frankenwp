@@ -5,7 +5,7 @@ services:
     ports:
       - "80:80"
     environment:
-      SERVER_NAME: ${SERVER_NAME:-blog.dtasolutions.vn, 5.189.159.172:80, :80}
+      SERVER_NAME: ${SERVER_NAME:-blog.dtasolutions.vn}
       WORDPRESS_DB_HOST: ${DB_HOST:-db}
       WORDPRESS_DB_USER: ${DB_USER:-frankenwp_user}
       WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-frankenwp_password}
@@ -34,13 +34,22 @@ services:
         auto_https disable_redirects
         debug
       WORDPRESS_CONFIG_EXTRA: |
-          if (!empty($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'blog.dtasolutions.vn') {
-              define('WP_SITEURL', 'https://blog.dtasolutions.vn');
-              define('WP_HOME', 'https://blog.dtasolutions.vn');
-              define('FORCE_SSL_ADMIN', true);
-          } else {
-              define('WP_SITEURL', 'http://5.189.159.172:80');
-              define('WP_HOME', 'http://5.189.159.172:80');
+          // Force WordPress to use the domain instead of IP
+          if (!empty($_SERVER['HTTP_HOST'])) {
+              $host = $_SERVER['HTTP_HOST'];
+              // Remove port if present
+              $host = preg_replace('/:\d+$/', '', $host);
+              
+              if ($host === 'blog.dtasolutions.vn') {
+                  define('WP_SITEURL', 'https://blog.dtasolutions.vn');
+                  define('WP_HOME', 'https://blog.dtasolutions.vn');
+                  define('FORCE_SSL_ADMIN', true);
+              } else {
+                  // Default to domain even if accessed via IP
+                  define('WP_SITEURL', 'https://blog.dtasolutions.vn');
+                  define('WP_HOME', 'https://blog.dtasolutions.vn');
+                  define('FORCE_SSL_ADMIN', true);
+              }
           }
           
     volumes:

@@ -17,10 +17,8 @@
 
 {$CADDY_EXTRA_CONFIG}
 
-## Need to set all hosts with port for the cloud.
-# You may not have the hostname being called due to dynamic IPs and load balancers.
-# Allowing all hosts on port 80 for health checks, local dev & cases where the hostname is unknown.
-{$SERVER_NAME:localhost} {
+## Configure to only accept the specific domain
+{$SERVER_NAME:blog.dtasolutions.vn} {
 	@static {
 		file
 		path *.ico *.css *.js *.gif *.jpg *.jpeg *.png *.svg *.woff
