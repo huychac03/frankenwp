@@ -3,9 +3,9 @@ services:
     build: .
     restart: always
     ports:
-      - "8100:80"
+      - "80:80"
     environment:
-      SERVER_NAME: ${SERVER_NAME:-frankenwp.passiontech.dev, 94.100.26.6:8100, :80}
+      SERVER_NAME: ${SERVER_NAME:-blog.dtasolutions.vn, 5.189.159.172:80, :80}
       WORDPRESS_DB_HOST: ${DB_HOST:-db}
       WORDPRESS_DB_USER: ${DB_USER:-frankenwp_user}
       WORDPRESS_DB_PASSWORD: ${DB_PASSWORD:-frankenwp_password}
@@ -30,17 +30,17 @@ services:
       CLOUDFLARE_R2_SECRET_KEY: ${CLOUDFLARE_R2_SECRET_KEY:-}
       
       CADDY_GLOBAL_OPTIONS: |
-        email admin@passiontech.dev
+        email admin@dtasolutions.vn
         auto_https disable_redirects
         debug
       WORDPRESS_CONFIG_EXTRA: |
-          if (!empty($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'frankenwp.passiontech.dev') {
-              define('WP_SITEURL', 'https://frankenwp.passiontech.dev');
-              define('WP_HOME', 'https://frankenwp.passiontech.dev');
+          if (!empty($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'blog.dtasolutions.vn') {
+              define('WP_SITEURL', 'https://blog.dtasolutions.vn');
+              define('WP_HOME', 'https://blog.dtasolutions.vn');
               define('FORCE_SSL_ADMIN', true);
           } else {
-              define('WP_SITEURL', 'http://94.100.26.6:8100');
-              define('WP_HOME', 'http://94.100.26.6:8100');
+              define('WP_SITEURL', 'http://5.189.159.172:80');
+              define('WP_HOME', 'http://5.189.159.172:80');
           }
           
     volumes:
