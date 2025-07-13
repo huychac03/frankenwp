@@ -34,10 +34,10 @@ services:
         auto_https disable_redirects
         debug
       WORDPRESS_CONFIG_EXTRA: |
-          // Force WordPress to use the domain instead of IP
+          /* Force WordPress to use the domain instead of IP */
           if (!empty($_SERVER['HTTP_HOST'])) {
               $host = $_SERVER['HTTP_HOST'];
-              // Remove port if present
+              /* Remove port if present */
               $host = preg_replace('/:\d+$/', '', $host);
               
               if ($host === 'blog.dtasolutions.vn') {
@@ -45,7 +45,7 @@ services:
                   define('WP_HOME', 'https://blog.dtasolutions.vn');
                   define('FORCE_SSL_ADMIN', true);
               } else {
-                  // Default to domain even if accessed via IP
+                  /* Default to domain even if accessed via IP */
                   define('WP_SITEURL', 'https://blog.dtasolutions.vn');
                   define('WP_HOME', 'https://blog.dtasolutions.vn');
                   define('FORCE_SSL_ADMIN', true);
